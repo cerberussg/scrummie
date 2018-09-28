@@ -8,15 +8,15 @@ default: &default
 development:
   <<: *default
   database: scrummie_development
-  username:
-  password:
+  username: <%= ENV['SCRUMMIE_USERNAME'] %>
+  password: <%= ENV['SCRUMMIE_PASSWORD'] %>
   host: localhost
   port: 5433
 
 test:
   <<: *default
   database: scrummie_test
-  username:
-  password:
+  username: <%= ENV['SCRUMMIE_USERNAME'] %>
+  password: <%= ENV['SCRUMMIE_PASSWORD'] %>
   host: localhost
   port: 5433
