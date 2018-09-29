@@ -1,24 +1,28 @@
-h2
-  | Sign up
-= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
-  = devise_error_messages!
-  .field
-    = f.label :email
-    br
-    = f.email_field :email, autofocus: true, autocomplete: "email"
-  .field
-    = f.label :password
-    - if @minimum_password_length
-      em
-        | (
-        = @minimum_password_length
-        |  characters minimum)
-    br
-    = f.password_field :password, autocomplete: "new-password"
-  .field
-    = f.label :password_confirmation
-    br
-    = f.password_field :password_confirmation, autocomplete: "new-password"
-  .actions
-    = f.submit "Sign up"
-= render "devise/shared/links"
+.login-box
+  .login-logo
+    a href="/"
+      b Scrummie
+  .login-box-body
+    p.login-box-msg Sign up
+    = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
+      .form-group
+        = devise_error_messages!
+      .form-group.has-feedback
+        = f.text_field :name, autofocus: true, class: "form-control", placeholder: "Name"
+      .form-group.has-feedback
+        = f.email_field :email, autofocus: true, class: "form-control", placeholder: "Email"
+        span.glyphicon.glyphicon-envelope.form-control-feedback
+      .form-group.has-feedback
+        = f.password_field :password, autocomplete: "off", class: "form-control", placeholder: "Password"
+        span.glyphicon.glyphicon-lock.form-control-feedback
+        - if @minimum_password_length
+          em
+            | (
+            = @minimum_password_length
+            |  characters minimum)
+      .form-group.has-feedback
+        = f.password_field :password_confirmation, autocomplete: "off", class: "form-control", placeholder: "Retype Password"
+      .row
+        .col-xs-4.col-xs-offset-8
+          = f.submit "Sign Up", class: "btn btn-primary btn-block btn-flat"
+    = render "devise/shared/links"
