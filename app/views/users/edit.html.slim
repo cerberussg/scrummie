@@ -1,0 +1,30 @@
+.content-header
+  h2 Users
+.content
+  .row
+    .col-lg-12
+      .box.box-primary
+        = form_for(@user, url: account_user_path(@user), html: {class: 'form-horizontal'}) do |f|
+          .box-header
+            h3.box-title
+              | Edit User Information
+          .box-body
+            -if @user.errors.any?
+              .alert.alert-error.alert-block.alert-fixed
+                h4= "#{pluralize(@user.errors.count, "error")} prohibited the user from being saved:"
+                == @user.errors.full_messages.map{|msg| content_tag(:li, msg)}.join
+            .form-group
+              = f.label :name, class: 'control-label col-lg-2'
+              .col-lg-10
+                = f.text_field :name, {placeholder: "Name", autofocus: true, class: "form-control"}
+            .form-group
+              = f.label :email, class: 'control-label col-lg-2'
+              .col-lg-10
+                = f.email_field :email, {placeholder: "Email Address", autofocus: true, class: "form-control"}
+            .form-group
+              = label_tag "user[role]", "Role", class: "control-label col-lg-2"
+              .col-lg-10
+                = select_tag "user[role]", options_for_select(@choices, @user.roles.first.name), class: "form-control"
+          .box-footer style="height: 55px;"
+            span.pull-right
+              = f.submit "Edit User", class: "btn btn-primary"

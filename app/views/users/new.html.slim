@@ -1,0 +1,29 @@
+.content-header
+  h2 Users
+.content
+  .row
+    .col-lg-12
+      .box.box-primary
+        = form_for(@user, url: account_users_path, html: {class: 'form-horizontal'}) do |f|
+          .box-header
+            h3.box-title New User Information
+          .box-body
+              -if @user.errors.any?
+                .alert.alert-error.alert-block.alert-fixed
+                  h4= "#{pluralize(@user.errors.count, "error")} prohibited your the user from being saved:"
+                  == @user.errors.full_messages.map { |msg| content_tag(:li, msg) }.join
+              .form-group
+                = label_tag "user[name]", "Name", class: 'control-label col-lg-2'
+                .col-lg-10
+                  = f.text_field :name, {placeholder: "Name", autofocus: true, class: "form-control"}
+              .form-group
+                = label_tag "user[email]", "Email", class: 'control-label col-lg-2'
+                .col-lg-10
+                  = f.email_field :email, {placeholder: "Email Address", autofocus: true, class: "form-control"}
+              .form-group
+                = label_tag "user[role]", "Role", class: 'control-label col-lg-2'
+                .col-lg-10
+                  = select_tag "user[role]", options_for_select(@choices, 'user'), class: 'form-control'
+          .box-footer style="height: 55px;"
+            span.pull-right
+              = f.submit "Add User", class: "btn btn-primary"
