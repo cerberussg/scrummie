@@ -12,5 +12,6 @@ HTML
     .wrapper
       = render 'layouts/navigation/layout'
       .content-wrapper
+        = flash_messages
         = yield
       = render 'layouts/navigation/footer'

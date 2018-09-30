@@ -1,18 +1,23 @@
-h2
-  | Log in
-= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
-  .field
-    = f.label :email
-    br
-    = f.email_field :email, autofocus: true, autocomplete: "email"
-  .field
-    = f.label :password
-    br
-    = f.password_field :password, autocomplete: "current-password"
-  - if devise_mapping.rememberable?
-    .field
-      = f.check_box :remember_me
-      = f.label :remember_me
-  .actions
-    = f.submit "Log in"
-= render "devise/shared/links"
+.login-box
+  .login-logo
+    a href="/"
+      b Scrummie
+  .login-box-body
+    p.login-box-msg Sign in
+    = form_for(resource, as: resource_name, url: session_path(resource_name))\
+    do |f|
+      .form-group.has-feedback
+        = f.email_field :email, autofocus: true, class: "form-control",\
+        placeholder: "Email"
+        span.glyphicon.glyphicon-envelope.form-control-feedback
+      .form-group.has-feedback
+        = f.password_field :password, autocomplete: "off",\
+         class: "form-control", placeholder: "Password"
+        span.glyphicon.glyphicon-lock.form-control-feedback
+      .row
+        .col-xs-8
+          = f.check_box :remember_me
+          = f.label :remember_me
+        .col-xs-4
+          = f.submit "Sign In", class: "btn btn-primary btn-block btn-flat"
+    = render "devise/shared/links"
