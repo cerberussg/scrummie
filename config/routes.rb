@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'support', to: 'static#support'
   get 'users/index'
   get 'users/show'
   get 'users/new'

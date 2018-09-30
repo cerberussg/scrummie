@@ -1,7 +1,22 @@
 require 'rails_helper'
 
 RSpec.describe AccountsController, type: :controller do
-  login_user
+
+  before(:each) do
+    @request.env["devise.mapping"] = Devise.mappings[:user]
+    user = User.create!(name: "John", email: "specuser@test.com", password: 'spec123')
+    user.add_role :admin
+    sign_in user
+  end
+
+  it "fails on unauthenticated user" do
+    @request.env["devise.mapping"] = Devise.mappings[:user]
+    user = User.create!(name: "John", email: "specuseruser@test.com", password: 'spec123')
+    user.add_role :user
+    sign_in user
+    get :new
+    expect(response).to have_http_status(:redirect)
+  end
 
   describe "GET #new" do
     it "returns http success" do
@@ -22,10 +37,9 @@ RSpec.describe AccountsController, type: :controller do
     end
 
     it "renders :new on failure" do
-      post :create,  params: {account: FactoryBot.attributes_for(:account,{
-        name: nil
-      })}
+      post :create,  params: {account: FactoryBot.attributes_for(:account,{name: nil})}
       expect(response).to render_template :new
     end
   end
+
 end

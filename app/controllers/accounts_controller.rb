@@ -1,4 +1,6 @@
 class AccountsController < ApplicationController
+  load_and_authorize_resource :find_by => :hash_id
+
   def new
     redirect_to root_path unless current_user.account.nil?
     @account = Account.new

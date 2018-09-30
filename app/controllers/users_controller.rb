@@ -1,6 +1,8 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
   before_action :set_users, only: [:index]
+  load_and_authorize_resource :find_by => :hash_id
+
   def index
   end
 
@@ -116,7 +118,7 @@ class UsersController < ApplicationController
     end
 
     def user_params
-      params.require(:user).permit(:name, :email, :role, :time_zone)
+      params.require(:user).permit(:name, :email, :title, :role, :time_zone)
     end
 
     def user_password_params
