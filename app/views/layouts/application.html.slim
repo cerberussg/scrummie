@@ -1,17 +1,22 @@
-doctype HTML
-HTML
+doctype html
+html
   head
     title Scrummie
     = csrf_meta_tags
-    = stylesheet_link_tag 'application', media: 'all',\
-      'data-turbolinks-track': 'reload'
+    = action_cable_meta_tag
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
+    script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"
+    script src="https://js.stripe.com/v3/"
     = stylesheet_link_tag href=\
     "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    = stylesheet_link_tag href=\
+    "https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.css"
 
   body.fixed.skin-purple-light
     .wrapper
       = render 'layouts/navigation/layout'
-      .content-wrapper
+      .content-wrapper class="#{'no-team' unless @team.present? && !@team.id.nil?}"
         = flash_messages
         = yield
       = render 'layouts/navigation/footer'

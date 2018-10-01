@@ -31,6 +31,18 @@ RSpec.configure do |config|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true
   end
 
+  config.before(:each, type: :view) do
+    config.mock_with :rspec do |mocks|
+      mocks.verify_partial_doubles = false
+    end
+  end
+
+  config.after(:each, type: :view) do
+    config.mock_with :rspec do |mocks|
+      mocks.verify_partial_doubles = true
+    end
+  end
+
   # rspec-mocks config goes here. You can use an alternate test double
   # library (such as bogus or mocha) by changing the `mock_with` option here.
   config.mock_with :rspec do |mocks|
@@ -96,4 +108,7 @@ RSpec.configure do |config|
   # as the one that triggered the failure.
   Kernel.srand config.seed
 =end
+
+require 'capybara/poltergeist'
+Capybara.javascript_driver = :poltergeist
 end

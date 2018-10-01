@@ -3,3 +3,42 @@
 
 @import 'AdminLTE';
 @import 'skins/skin-purple-light';
+
+$PrimaryColor: #605ca8;
+
+.cursor {
+  cursor: pointer;
+}
+
+.link-brand {
+  color: $PrimaryColor;
+}
+
+.btn-brand {
+  background-color: $PrimaryColor;
+  color: #FFF;
+}
+
+.fa-arrow-left {
+  color: $PrimaryColor;
+}
+
+.fa-arrow-right {
+  color: $PrimaryColor;
+}
+
+.box-brand {
+  border-color: $PrimaryColor;
+}
+
+.form-control:focus {
+  box-shadow: 0 0 5px $PrimaryColor;
+  border: 1px solid $PrimaryColor;
+  padding: 3px 0px 3px 3px;
+  margin: 5px 1px 3px 0px;
+}
+
+.btn-xs {
+  margin-left: 2px;
+  margin-right: 2px;
+}
