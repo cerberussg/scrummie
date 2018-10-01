@@ -3,7 +3,7 @@
 .content
   .row
     .col-lg-12
-      .box.box-primary
+      .box.box-brand
         .box-header
           h3.box-title
             = "Users in #{current_account.name}"
@@ -30,12 +30,10 @@
                     td= user.created_at.strftime('%D')
                     td
                       = link_to 'Edit', edit_account_user_path(user),
-                      class: 'btn btn-default btn-xs'
-                      = link_to 'Delete', edit_account_user_path(user),
-                      {method: :delete, data: { confirm: 'Are you sure?' },
-                      class: 'btn btn-warning btn-xs'} unless user.id == current_user.id
+                      class: 'btn btn-warning btn-xs'
+                      = link_to 'Delete', account_user_path(user), {method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-xs'} unless user.id == current_user.id
 
         .box-footer style="height: 55px;"
           span.pull-right
-            a.btn.btn-primary href="#{new_account_user_path}"
+            a.btn.btn-brand href="#{new_account_user_path}"
               | Add User

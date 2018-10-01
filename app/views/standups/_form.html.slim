@@ -1,0 +1,18 @@
+= form_for @standup do |f|
+  - if @standup.errors.any?
+    #error_explanation
+      h2 = "#{pluralize(@standup.errors.count, "error")} prohibited this standup from being saved:"
+      ul
+        - @standup.errors.full_messages.each do |message|
+          li = message
+
+  .field
+    = f.label :user
+    = f.text_field :user
+  .field
+    = f.label :standup_date
+    = f.date_select :standup_date
+  .field
+    = f.label :hash_id
+    = f.text_field :hash_id
+  .actions = f.submit

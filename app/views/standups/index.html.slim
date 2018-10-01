@@ -1,0 +1,25 @@
+h1 Listing standups
+
+table
+  thead
+    tr
+      th User
+      th Standup date
+      th Hash
+      th
+      th
+      th
+
+  tbody
+    - @standups.each do |standup|
+      tr
+        td = standup.user
+        td = standup.standup_date
+        td = standup.hash_id
+        td = link_to 'Show', standup
+        td = link_to 'Edit', edit_standup_path(standup)
+        td = link_to 'Destroy', standup, data: { confirm: 'Are you sure?' }, method: :delete
+
+br
+
+= link_to 'New Standup', new_standup_path
