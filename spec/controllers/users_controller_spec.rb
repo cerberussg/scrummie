@@ -125,7 +125,7 @@ RSpec.describe UsersController, type: :controller do
     it "fails on to many users" do
       3.times.each { |_| FactoryBot.create(:user, account: @admin.account) }
       post :create, params: {user: FactoryBot.attributes_for(:user,{role: 'user'})}
-      expect(response).to redirect_to root_path
+      expect(response).to redirect_to account_users_path
       expect(flash[:notice]).to eq "You do not have the resources to create\
  this User, please consider upgrading your plan."
     end

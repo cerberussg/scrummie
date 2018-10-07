@@ -1,34 +1,30 @@
-.main-sidebar
-  .sidebar
-    .user-panel
-      .pull-left.image
-        img.img-circle alt=("User Image") src="http://placehold.it/160x160" /
-      .pull-left.info
-        p User Name
-        a href="#"
-          i.fa.fa-circle.text-success
-          | Online
-    form.sidebar-form action="#" method="get"
-      .input-group
-        input.form-control name="q" placeholder="Search..." type="text" /
-        span.input-group-btn
-          button#search-btn.btn.btn-flat name="search" type="submit"
-            i.fa.fa-search
-    ul.sidebar-menu
-      li.header HEADER
-      li.active
-        a href="#"
-          span Link
-
-      li
-        a href="#"
-          span Another Link
-      li.treeview
-        a href="#"
-          span Multilevel
-          i.fa.fa-angle-left.pull-right
-        ul.treeview-menu
-          li
-            a href="#"  Link in level 2
-          li
-            a href="#"  Link in level 2
+- if @team.present? && !@team.id.nil?
+  .main-sidebar
+    .sidebar
+      .user-panel
+        .pull-left.image
+          h3.header-circ
+              = @team&.name[0]&.upcase
+        .pull-left.info style="vertical-align: middle; margin-top: 5px;"
+          p= @team.name
+        .clearfix
+        span.hidden-xs.description
+          p= @team.description
+      ul.sidebar-menu
+        li.header Overview
+        li
+          = link_to team_path(@team),\
+            {id: "edit_#{@team.hash_id}_sidebar"} do
+              .fa.fa-dashboard
+              span Details
+        li
+          = link_to edit_team_path(@team),\
+            {id: "edit_#{@team.hash_id}_sidebar"} do
+              .fa.fa-cog
+              span Settings
+      ul.sidebar-menu
+        li.header Standups
+        li
+          a href="/t/#{@team.hash_id}/s"
+            .fa.fa-child
+            span View

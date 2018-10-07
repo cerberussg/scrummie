@@ -10,6 +10,53 @@ $PrimaryColor: #605ca8;
   cursor: pointer;
 }
 
+.navbar-custom-menu {
+  padding: 0 16px;
+}
+
+.navbar-nav > .user-menu > .dropdown-menu {
+  border-radius: 3px;
+  padding: 10px 10px 10px 10px;
+  margin-top: 5px;
+  width: 160px;
+}
+
+.main-sidebar h3.header-circ {
+  width: 36px;
+  height: 36px;
+  background-color: #e0e0e0;
+  border-radius: 50%;
+  line-height: 36px;
+  text-align: center;
+  margin: 0;
+}
+
+.main-sidebar .user-panel {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.main-sidebar .user-panel .description {
+  word-wrap: normal;
+  white-space: normal;
+}
+
+.main-sidebar .user-panel .description p {
+  margin: 10px 0 10px;
+}
+
+.main-sidebar .fa {
+  color: #707071;
+}
+
+.content-wrapper.no-team {
+  margin-left: 0;
+}
+
+.main-footer.full-footer {
+  width: 100%;
+  margin-left: 0;
+}
+
 .link-brand {
   color: $PrimaryColor;
 }
