@@ -1,5 +1,8 @@
 require 'rails_helper'
 
-RSpec.describe "static/support.html.slim", type: :view do
-  pending "add some examples to (or delete) #{__FILE__}"
+RSpec.describe "/support.html.slim", type: :view do
+  it 'renders How to reach support?' do
+    render :template => "static/support.html.slim"
+    expect(rendered).to match /How to reach support?/
+  end
 end

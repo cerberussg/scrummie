@@ -1,0 +1,14 @@
+.content-header
+  h2 Teams
+.content#teams-index
+  - @teams.to_a.push(Team.new).each_slice(3) do |teams|
+    .row style="position:relative;"
+      - teams.each do |team|
+        -unless team.id.nil?
+          = render partial: team, locals: {team: team}
+        - else
+          - style = @teams.empty? ? "position:absolute;top:125px" : "position:\
+          absolute;bottom:25px"
+          = link_to new_team_path, {style: style, id: 'new_team'} do
+            button.btn.btn-brand.btn-circle.btn-lg
+             i.fa.fa-plus

@@ -31,6 +31,17 @@ $PrimaryColor: #605ca8;
   border-color: $PrimaryColor;
 }
 
+.checkbox-brand input[type="checkbox"]:checked + label::before,
+.checkbox-brand input[type="radio"]:checked + label::before {
+  background-color: $PrimaryColor;
+  border-color: $PrimaryColor;
+}
+
+.checkbox-brand input[type="checkbox"]:checked + label::after,
+.checkbox-brand input[type="radio"]:checked + label::after {
+  color: #fff;
+}
+
 .form-control:focus {
   box-shadow: 0 0 5px $PrimaryColor;
   border: 1px solid $PrimaryColor;

@@ -1,0 +1,48 @@
+.col-sm-4
+  .box.box-brand
+    .box-header
+      .pull-right.box-tools
+        - if current_user.has_role? :admin, current_account
+          = link_to edit_team_path(team), {id: "edit_#{team.hash_id}",\
+          class: "btn btn-xs btn-white",\
+            data: {toggle:"tooltip", placement:"top", title:"Edit"},\
+            style: "margin-left:10px;"} do
+            i.fa.fa-pencil
+          = link_to team_path(team), {class: "btn btn-xs btn-white",\
+            method: :delete,\
+            data: { confirm: 'Are you sure? Deleting is permanent',\
+              toggle:"tooltip",\
+              placement:"top",\
+              title:"Delete" },\
+              style: "margin-left:10px;" } do
+            i.fa.fa-trash
+      = link_to team_path(team), {id: "team_#{team.hash_id}_header"} do
+        h3.box-title
+          = team.name
+    = link_to team_path(team), {id: "team_#{team.hash_id}_body"} do
+      .box-body
+        h4
+          | Description:
+        p
+          = team.description
+        h4 Members
+        .team-members
+          - if team.users.blank?
+            p No Users have been added to the team
+          - else
+            = team.users.pluck(:name).join(', ')
+        h4
+          = "Standup Details"
+        .row.m-t-sm
+          .col-sm-6
+            = "On days #{team.days.pluck(:day).map(&:humanize).join(', ')}"
+          .col-sm-6
+            - if team.reminder_time
+              = "Reminder is #{team.reminder_time.\
+              in_time_zone(current_user.time_zone).strftime("%I:%M %p %Z")}\
+              (#{team.reminder_time.strftime("%H:%M UTC")})}"
+            - if team.recap_time
+              br
+              = "Recap is #{team.recap_time.\
+              in_time_zone(current_user.time_zone).strftime("%I:%M %p %Z")}\
+              (#{team.recap_time.strftime("%H:%M UTC")})}"

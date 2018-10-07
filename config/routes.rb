@@ -49,6 +49,8 @@ Rails.application.routes.draw do
 
   get 'activity/feed'
 
+  get 'support', to: 'static#support'
+
   get 'dates/:date', to: 'dates#update', as: 'update_date'
 
   require "sidekiq/web"
