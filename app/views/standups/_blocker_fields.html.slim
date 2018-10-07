@@ -1,0 +1,6 @@
+.nested-fields.input-group
+  = f.text_field :title, class: 'form-control input-lg',\
+  placeholder: 'Something impeding me'
+  span.input-group-addon
+    = link_to_remove_association f do
+      .fa.fa-trash

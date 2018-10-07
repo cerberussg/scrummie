@@ -20,9 +20,7 @@ header.main-header
             span.label.label-warning style="display:none"
               | NEW
           ul.dropdown-menu#notification-container
-            = render partial: 'layouts/navigation/notifications',\
-              locals:\
-               {notification_standups: notification_standups(current_user)}
+                | Notifications
         /! User Account: style can be found in dropdown.less
         li.dropdown.user.user-menu
           a.dropdown-toggle data-toggle="dropdown" href="#"

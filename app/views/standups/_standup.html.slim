@@ -1,0 +1,16 @@
+.box-body
+  h4
+    | Dids
+    ul.todo-list
+      - standup.dids.each do |did|
+        li= did.title
+  h4
+    | Todos
+    ul.todo-list
+      - standup.todos.each do |todo|
+        li= todo.title
+  h4
+    | Blockers
+    ul.todo-list
+      - standup.blockers.each do |blocker|
+        li= blocker.title

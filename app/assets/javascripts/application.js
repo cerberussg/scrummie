@@ -16,4 +16,5 @@
 //= require bootstrap
 //= require jquery.slimscroll.min
 //= require activestorage
+//= require cocoon
 //= require_tree .

@@ -1,18 +1,47 @@
 = form_for @standup do |f|
+  = f.hidden_field :standup_date, value: current_date
   - if @standup.errors.any?
-    #error_explanation
-      h2 = "#{pluralize(@standup.errors.count, "error")} prohibited this standup from being saved:"
-      ul
-        - @standup.errors.full_messages.each do |message|
-          li = message
+    = render partial: 'shared/model_errors', locals: {model: @standup}
+  = render partial: 'layouts/date_change', locals:\
+    {reload_path: "/s/#{action_name}"}
+  .row
+    .col-sm-8.col-sm-offset-2
+      .box.box-brand
+        .box-header
+          h3 What did you do since your last standup?
+        .box-body
+          = f.fields_for :dids do |did|
+            = render 'did_fields', f: did
+          .links
+            = link_to_add_association f, :dids, class: 'btn btn-sm bg-olive',\
+              style: 'border-radius:50%' do
+                i.fa.fa-plus
+  .row
+    .col-sm-8.col-sm-offset-2
+      .box.box-brand
+        .box-header
+          h3 What are you doing today?
+        .box-body
+          = f.fields_for :todos do |todo|
+            = render 'todo_fields', f: todo
+          .links
+            = link_to_add_association f, :todos, class: 'btn btn-sm bg-olive',\
+              style: 'border-radius:50%' do
+                i.fa.fa-plus
+  .row
+    .col-sm-8.col-sm-offset-2
+      .box.box-brand
+        .box-header
+          h3 What is blocking you?
+        .box-body
+          = f.fields_for :blockers do |blocker|
+            = render 'blocker_fields', f: blocker
+          .links
+            = link_to_add_association f, :blockers,\
+              class: 'btn btn-sm bg-olive',\
+              style: 'border-radius:50%' do
+                i.fa.fa-plus
 
-  .field
-    = f.label :user
-    = f.text_field :user
-  .field
-    = f.label :standup_date
-    = f.date_select :standup_date
-  .field
-    = f.label :hash_id
-    = f.text_field :hash_id
-  .actions = f.submit
+  .row
+    .col-sm-8.col-sm-offset-2
+      = f.submit 'Save', class: ' btn btn-brand'
