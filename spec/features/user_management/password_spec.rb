@@ -25,8 +25,8 @@ RSpec.feature "Password", type: :feature do
     visit my_password_path
 
     within "#edit_user_#{@user.id}" do
-      fill_in "user_password", with: 'Test'
-      fill_in "user_password_confirmation", with: ''
+      fill_in "user_password", with: 'Test12'
+      fill_in "user_password_confirmation", with: 'test12'
     end
 
     click_button("Update My Password")

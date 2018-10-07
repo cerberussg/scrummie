@@ -12,7 +12,7 @@
             -if @user.errors.any?
               .alert.alert-error.alert-block.alert-fixed
                 h4= "#{pluralize(@user.errors.count, "error")} prohibited the user from being saved:"
-                == @user.errors.full_messages.map{ |msg| content_tag(:li, msg) }.join
+                == @user.errors.full_messages.map { |msg| content_tag(:li, msg) }.join
             .form-group
               = f.label :name, class: 'control-label col-lg-2'
               .col-lg-10
@@ -31,4 +31,4 @@
                 = select_tag "user[role]", options_for_select(@choices, @user.roles.first.name), class: "form-control"
           .box-footer style="height: 55px;"
             span.pull-right
-              = f.submit "Edit User", class: "btn btn-primary"
+              = f.submit "Edit User", class: "btn btn-brand"

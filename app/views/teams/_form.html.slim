@@ -1,0 +1,86 @@
+= form_for @team, html:{class: 'form-horizontal'} do |f|
+  - if @team.errors.any?
+    = render partial: 'shared/model_errors', locals: {model: @team}
+  .col-lg-11.col-lg-offset-1
+    h3 General Settings
+  .form-group
+    = f.label :name, class: 'control-label col-lg-2'
+    .col-lg-10
+      = f.text_field :name, placeholder: 'Enter a team name',\
+        class: 'form-control'
+  .form-group
+    = f.label :description, class: 'control-label col-lg-2'
+    .col-lg-10
+      = f.text_area :description, placeholder: 'Enter a team description',\
+        class: 'form-control'
+  .form-group
+    = f.label :timezone, class: 'control-label col-lg-2'
+    .col-lg-10
+      = f.time_zone_select(:timezone, ActiveSupport::TimeZone.us_zones, {},\
+        {class: 'form-control'})
+  .form-group
+    = f.label "","Days of the week", class: 'control-label col-lg-2'
+    .col-lg-10
+      .fieldset
+        - DaysOfTheWeekMembership.days.each do |day_name, i|
+          .checkbox.checkbox-inline.checkbox-brand
+            = check_box_tag "team[days][]", day_name,\
+              f.object.days.pluck(:day).include?(day_name),\
+              {id: "team_days_#{day_name.downcase}"}
+            = f.label "days_#{day_name.downcase}",\
+              day_name.capitalize,\
+              {style: "padding-left: 0px"}
+      span.help-block.m-b-none The days of the week to hold status reports.
+  .hr-line-dashed
+  .col-lg-11.col-lg-offset-1
+    h3 Users in this team
+  .form-group
+    .col-lg-10.col-lg-offset-2
+      .fieldset
+        - @account_users.each do |user|
+          .checkbox.checkbox-inline.checkbox-brand
+            = check_box_tag "team[user_ids][]", user.id,\
+              f.object.users.pluck(:id).include?(user.id),\
+              {id: "team_user_#{user.id}"}
+            = f.label "user_#{user.id}", user.name, {style: "padding-left: 0px"}
+      span.help-block.m-b-none Users to be included in this team.
+  .hr-line-dashed
+  .col-lg-11.col-lg-offset-1
+    h3 Notification Settings
+  .form-group
+    = f.label :has_reminder, "Send Reminder Notification?",\
+      class: 'control-label col-lg-2'
+    .col-lg-10
+      .checkbox.checkbox-brand
+        = f.check_box :has_reminder, {class: 'form-control'}
+        = label_tag ""
+      span.help-block.m-b-none
+        | Send a reminder notification
+        |  on days the team has reports.
+  .form-group#reminder-time-box{
+    style="#{f.object.has_reminder ? '' : 'display:none;'}"}
+    = f.label :reminder_time, class: 'control-label col-lg-2'
+    .col-lg-10
+      = f.time_select :reminder_time, {ampm: true, minute_step: 15},\
+        {style:'    display: inline;width: 10%;',class: 'form-control'}
+      span.help-block.m-b-none
+        | Time of the day to send report reminder in the selected time zone.
+  .form-group
+    = f.label :has_recap, "Send team Recap?", class: 'control-label col-lg-2'
+    .col-lg-10
+      .checkbox.checkbox-brand
+        = f.check_box :has_recap, {class: 'form-control'}
+        = label_tag ""
+      span.help-block.m-b-none Send a recap summer on days the team has reports.
+  .form-group#recap-time-box{
+    style="#{f.object.has_recap ? '' : 'display:none;'}"}
+    = f.label :recap_time, class: 'control-label col-lg-2'
+    .col-lg-10
+      = f.time_select :recap_time, {ampm: true, minute_step: 15},\
+      {style:'    display: inline;width: 10%;',class: 'form-control'}
+      span.help-block.m-b-none
+        | Time of the day to send report recap in the selected time zone.
+
+  .form-group
+    .col-lg-offset-2.col-lg-10
+      = f.submit "Save", class: "btn btn-brand"

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_30_044350) do
+ActiveRecord::Schema.define(version: 2018_10_02_204645) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,6 +31,12 @@ ActiveRecord::Schema.define(version: 2018_09_30_044350) do
     t.index ["settings"], name: "index_accounts_on_settings", using: :gin
   end
 
+  create_table "days_of_the_week_memberships", force: :cascade do |t|
+    t.bigint "team_id"
+    t.integer "day"
+    t.index ["team_id"], name: "index_days_of_the_week_memberships_on_team_id"
+  end
+
   create_table "roles", force: :cascade do |t|
     t.string "name"
     t.string "resource_type"
@@ -48,6 +54,31 @@ ActiveRecord::Schema.define(version: 2018_09_30_044350) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_standups_on_user_id"
+  end
+
+  create_table "team_memberships", force: :cascade do |t|
+    t.bigint "team_id"
+    t.bigint "user_id"
+    t.index ["team_id"], name: "index_team_memberships_on_team_id"
+    t.index ["user_id"], name: "index_team_memberships_on_user_id"
+  end
+
+  create_table "teams", force: :cascade do |t|
+    t.string "name"
+    t.bigint "account_id"
+    t.string "timezone"
+    t.boolean "has_reminder"
+    t.boolean "has_recap"
+    t.string "hash_id"
+    t.time "reminder_time"
+    t.time "recap_time"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.text "description"
+    t.index ["account_id"], name: "index_teams_on_account_id"
+    t.index ["has_recap", "recap_time"], name: "index_teams_on_has_recap_and_recap_time"
+    t.index ["has_reminder", "reminder_time"], name: "index_teams_on_has_reminder_and_reminder_time"
+    t.index ["hash_id"], name: "index_teams_on_hash_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -89,5 +120,9 @@ ActiveRecord::Schema.define(version: 2018_09_30_044350) do
     t.index ["user_id"], name: "index_users_roles_on_user_id"
   end
 
+  add_foreign_key "days_of_the_week_memberships", "teams"
   add_foreign_key "standups", "users"
+  add_foreign_key "team_memberships", "teams"
+  add_foreign_key "team_memberships", "users"
+  add_foreign_key "teams", "accounts"
 end

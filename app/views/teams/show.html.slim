@@ -1,0 +1,37 @@
+.content
+  = render partial: 'layouts/date_change'
+  .row
+    .col-lg-12
+      .box.box-brand
+        .box-header
+          .pull-right.box-tools
+            - if current_user.has_role? :admin, current_account
+              = link_to edit_team_path(@team), {id: "edit_#{@team.hash_id}",\
+                  class: "btn btn-xs btn-white",\
+                  data: {toggle:"tooltip", placement:"top", title:"Edit"},\
+                  style: "margin-left:10px;"\
+                } do
+                i.fa.fa-pencil
+              = link_to team_path(@team), {class: "btn btn-xs btn-white",\
+                method: :delete,\
+                data: { confirm: 'Are you sure? Deleting is permanent',\
+                  toggle:"tooltip",\
+                  placement:"top",\
+                  title:"Delete" },\
+                  style: "margin-left:10px;" } do
+                i.fa.fa-trash
+          h3.box-title= "#{@team.name}'s' Information"
+        .box-body
+          p
+            | Users:
+            = @team.users.map(&:name).join(", ")
+            - if @team.has_reminder
+              |  | Reminder at:
+              = "#{@team.reminder_time.in_time_zone(current_user.time_zone).\
+              strftime("%I:%M %p %Z")}(#{@team.reminder_time.strftime("%H:%M")})"
+            - if @team.has_recap
+              |  | Recap at:
+              = "#{@team.recap_time.in_time_zone(current_user.time_zone).\
+              strftime("%I:%M %p %Z")}(#{@team.recap_time.strftime("%H:%M")})"
+          hr.dotted-line
+          h3#team-settings Team Standups
