@@ -1,10 +1,10 @@
 class StandupsController < ApplicationController
-  before_action :set_standup, only: [:show, :edit, :update, :destroy]
+  before_action :set_standup, only: [:show, :update, :destroy]
 
   # GET /standups
   # GET /standups.json
   def index
-    @standups = Standup.all
+    redirect_to(root_path)
   end
 
   # GET /standups/1
@@ -73,12 +73,12 @@ class StandupsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_standup
-      @standup = Standup.find(params[:id])
+      @standup = Standup.friendly.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def standup_params
-      params.require(:standup).permit(:user_id, :standup_date, :hash_id)
+      params.require(:standup).permit(:standup_date, dids_attributes: [:id, :title, :_destroy], todos_attributes: [:id, :title, :_destroy], blockers_attributes: [:id, :title, :_destroy])
     end
 
     def check_for_blank_date

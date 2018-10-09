@@ -39,7 +39,6 @@ Rails.application.routes.draw do
     resources :users do
       member do
         get 's', to: 'users#standups', as: 'standups'
-        get 's/(p/:page)', action: :standups
       end
     end
   end

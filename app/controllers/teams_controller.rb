@@ -7,7 +7,11 @@ class TeamsController < ApplicationController
   end
 
   def show
-    @team = Team.friendly.includes(:users).find(params[:id])
+    set_teams_and_standups(Date.today.iso8601)
+  end
+
+  def standups
+    set_teams_and_standups(current_date)
   end
 
   def new
@@ -23,13 +27,7 @@ class TeamsController < ApplicationController
     authorize!(:create, @team)
 
     if @team.save
-      @teammembership = TeamMembership.create!(team_id: @team.id, user_id: current_user.id)
-      if @teammembership.save
-        redirect_to @team, notice: "Team was successfully created"
-      else
-        set_users
-        render :new
-      end
+      redirect_to @team, notice: "Team was successfully created"
     else
       set_users
       render :new
@@ -63,48 +61,60 @@ class TeamsController < ApplicationController
 
   private
 
-  def team_params
-    params.require(:team).permit(:name, :description, :timezone, :has_reminder, :has_recap, :reminder_time, :recap_time, :days_of_the_week=> [])
-  end
-
-  def set_users
-    @account_users ||=
-    current_account.users.where.not(invitation_accepted_at: nil) +
-    current_account.users.with_role(:admin, current_account).distinct
-  end
-
-  def days_of_the_week
-    params[:team][:days_of_the_week]
-    &.map do |day|
-      DaysOfTheWeekMembership.new(
-        team_id: @team_id,
-        day: day
+    def team_params
+      params.require(:team).permit(
+        :name, :description, :timezone, :has_reminder,
+        :has_recap, :reminder_time, :recap_time, days: [], user_ids: []
       )
-    end || []
-  end
+    end
 
-  def use_time_zone(&block)
-    Time.use_zone(@team.timezone, &block)
-  end
+    def set_users
+      @account_users ||=
+      current_account.users.where.not(invitation_accepted_at: nil) +
+      current_account.users.with_role(:admin, current_account).distinct
+    end
 
-  def convert_zone_times_to_utc
-    convert_reminder
-    convert_recap
-  end
+    def days_of_the_week
+      params[:team][:days]
+      &.map do |day|
+        DaysOfTheWeekMembership.new(
+          team_id: @team_id,
+          day: day
+        )
+      end || []
+    end
 
-  def convert_reminder
-    return nil unless @team.reminder_time && @team.has_reminder
-    @team.reminder_time =
-      ActiveSupport::TimeZone[@team.timezone]
-      .parse(@team.reminder_time.to_s[11..18])
-      .utc
-  end
+    def use_time_zone(&block)
+      Time.use_zone(@team.timezone, &block)
+    end
 
-  def convert_recap
-    return nil unless @team.recap_time && @team.has_recap
-    @team.recap_time =
-      ActiveSupport::TimeZone[@team.timezone]
-      .parse(@team.recap_time.to_s[11..18])
-      .utc
-  end
+    def convert_zone_times_to_utc
+      convert_reminder
+      convert_recap
+    end
+
+    def convert_reminder
+      return nil unless @team.reminder_time && @team.has_reminder
+      @team.reminder_time =
+        ActiveSupport::TimeZone[@team.timezone]
+        .parse(@team.reminder_time.to_s[11..18])
+        .utc
+    end
+
+    def convert_recap
+      return nil unless @team.recap_time && @team.has_recap
+      @team.recap_time =
+        ActiveSupport::TimeZone[@team.timezone]
+        .parse(@team.recap_time.to_s[11..18])
+        .utc
+    end
+
+    def set_teams_and_standups(date)
+      @team = Team.friendly.includes(:users).find(params[:id])
+      @standups = @team.users.flat_map do |u|
+        u.standups.where(standup_date: date)
+        .includes(:dids, :todos, :blockers)
+        .references(:tasks)
+      end
+    end
 end
