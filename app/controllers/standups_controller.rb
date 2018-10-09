@@ -1,10 +1,10 @@
 class StandupsController < ApplicationController
-  before_action :set_standup, only: [:show, :edit, :update, :destroy]
+  before_action :set_standup, only: [:show, :update, :destroy]
 
   # GET /standups
   # GET /standups.json
   def index
-    @standups = Standup.all
+    redirect_to(root_path)
   end
 
   # GET /standups/1
@@ -14,17 +14,26 @@ class StandupsController < ApplicationController
 
   # GET /standups/new
   def new
+    return if check_for_blank_date
+    return if check_for_existance
     @standup = Standup.new
   end
 
   # GET /standups/1/edit
   def edit
+    return if check_for_blank_date
+    return if check_for_existance
+    @standup = Standup.find_by(
+      user_id: current_user.id,
+      standup_date: current_date
+    )
   end
 
   # POST /standups
   # POST /standups.json
   def create
     @standup = Standup.new(standup_params)
+    @standup.user = current_user
 
     respond_to do |format|
       if @standup.save
@@ -64,11 +73,33 @@ class StandupsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_standup
-      @standup = Standup.find(params[:id])
+      @standup = Standup.friendly.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def standup_params
-      params.require(:standup).permit(:user_id, :standup_date, :hash_id)
+      params.require(:standup).permit(:standup_date, dids_attributes: [:id, :title, :_destroy], todos_attributes: [:id, :title, :_destroy], blockers_attributes: [:id, :title, :_destroy])
+    end
+
+    def check_for_blank_date
+      if params[:date].blank?
+        redirect_to(
+          update_date_path(
+            date: Date.today.iso8601,
+            reload_path: "/s/#{action_name}/#{Date.today.iso8601}"
+          )
+        ) and return true
+      end
+    end
+
+    def check_for_existance
+      standup = Standup.find_by(
+        user_id: current_user.id, standup_date: current_date
+      )
+      if standup.present? && action_name == 'new'
+        redirect_to(edit_standup_path(date: current_date)) and return true
+      elsif standup.nil? && action_name == 'edit'
+        redirect_to(new_standup_path(date: current_date)) and return true
+      end
     end
 end

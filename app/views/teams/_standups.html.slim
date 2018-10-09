@@ -1,0 +1,14 @@
+- if @standups.empty?
+  .row
+    .col-sm-12
+      p No standups are available to display
+- @standups.each_slice(3) do |standups|
+  .row
+    - @standups.each do |standup|
+      .col-sm-4
+        .box.box-primary.standup-box data={standup: standup.hash_id}
+          .box-header.with-border
+            h3.box-title
+              = link_to standup.user.name,\
+                standups_account_user_path(standup.user)
+          = render partial: 'standups/standup', locals: {standup: standup}

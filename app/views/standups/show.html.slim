@@ -6,10 +6,7 @@ p
 p
   strong Standup date:
   = @standup.standup_date
-p
-  strong Hash:
-  = @standup.hash_id
 
-=> link_to 'Edit', edit_standup_path(@standup)
-'|
-=< link_to 'Back', standups_path
+= link_to 'Edit', edit_standup_path(@standup)
+'  |
+= link_to 'Back', standups_path

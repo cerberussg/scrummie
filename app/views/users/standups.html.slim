@@ -1,0 +1,22 @@
+.content-header
+  h2=@user.name
+.content
+  .row
+    .col-lg-12
+      .box
+        .box-header.with-border
+          h3.box-title= "Information"
+        .box-body
+          p
+            strong Email
+            = ": #{@user.email}"
+          p
+            strong Timezone
+            = ": #{@user.time_zone}"
+  .row
+    .col-lg-12
+      .box
+        .box-header
+          h3.box-title= "#{@user.name}'s' Standups"
+  #user-standups-container
+    = render partial: 'standups', locals: {standups: @standups}
