@@ -1,4 +1,36 @@
 .content-header
   h2 My Activity
 .content
-  = render partial: 'layouts/date_change'
+  - @standups.each_slice(3) do |standups|
+    .row
+      - standups.each do |standup|
+       -cache standup do
+          .col-sm-4
+            .box.box-brand
+              .box-header.with-border
+                .box-tools.pull-right
+                  =link_to edit_standup_path(date: standup.standup_date) do
+                    .fa.fa-wrench
+                h3.box-title= standup.standup_date
+              .box-body
+                h4
+                  | Dids
+                  ul.todo-list
+                    - standup.dids.each do |did|
+                      - cache did do
+                        li= did.title
+                h4
+                  | Todos
+                  ul.todo-list
+                    - standup.todos.each do |todo|
+                      - cache todo do
+                        li = todo.title
+                h4
+                  | Blockers
+                  ul.todo-list
+                    - standup.blockers.each do |blocker|
+                      - cache blocker do
+                        li = blocker.title
+  .row
+    .col-sm-12
+      = paginate @standups

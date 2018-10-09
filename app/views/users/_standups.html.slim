@@ -1,0 +1,15 @@
+- if standups.empty?
+  .row
+    .col-sm-12
+      p No standups are available to display
+- standups.each_slice(3) do |sliced_standups|
+  .row
+    - sliced_standups.each do |standup|
+      .col-sm-4
+        .box.box-brand.standup-box data={standup: standup.hash_id}
+          .box-header.with-border
+            h3.box-title= standup.standup_date
+          = render partial: 'standups/standup', locals: {standup: standup}
+.row
+  .col-sm-12
+    = paginate standups

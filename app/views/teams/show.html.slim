@@ -1,8 +1,7 @@
 .content
-  = render partial: 'layouts/date_change'
   .row
     .col-lg-12
-      .box.box-brand
+      .box
         .box-header
           .pull-right.box-tools
             - if current_user.has_role? :admin, current_account
@@ -33,5 +32,13 @@
               |  | Recap at:
               = "#{@team.recap_time.in_time_zone(current_user.time_zone).\
               strftime("%I:%M %p %Z")}(#{@team.recap_time.strftime("%H:%M")})"
-          hr.dotted-line
-          h3#team-settings Team Standups
+  .row
+    .col-lg-12
+      .box
+        .box-header
+          .pull-right.box-tools
+            a href="/t/#{@team.hash_id}/s"
+              | See More
+          h3.box-title= "Today's \"#{@team.name}\" Standups"
+      #team-standups-container
+        = render partial: 'standups', locals: {standups: @standups}

@@ -6,6 +6,23 @@
 
 $PrimaryColor: #605ca8;
 
+.skin-purple-light .main-header nav.navbar .logo {
+  font-size: 16px;
+  color: #efefef;
+  width: 140px;
+}
+
+.skin-purple-light .main-header nav.navbar .logo.standup {
+  font-size: 16px;
+  background-color: #5aa1ca;
+  color: #efefef;
+  line-height: 34px;
+  width: 180px;
+  height: 34px;
+  border-radius: 40px;
+  margin: 8px 0;
+}
+
 .cursor {
   cursor: pointer;
 }
