@@ -110,28 +110,28 @@ class UsersController < ApplicationController
 
   private
 
-    # Use callbacks to share common setup or constraints between actions.
-    def set_users
-      @users = current_account.users
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_users
+    @users = current_account.users
+  end
 
-    def set_user
-      @user = User.friendly.find(params[:id])
-    end
+  def set_user
+    @user = User.friendly.find(params[:id])
+  end
 
-    def set_choices
-      @choices = []
-      @choices << ["Admin", 'admin']
-      @choices << ["User", 'user']
-      @choices
-    end
+  def set_choices
+    @choices = []
+    @choices << ["Admin", 'admin']
+    @choices << ["User", 'user']
+    @choices
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def user_params
-      params.require(:user).permit(:name, :email, :role, :time_zone)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def user_params
+    params.require(:user).permit(:name, :email, :role, :time_zone)
+  end
 
-    def user_password_params
-      params.require(:user).permit(:password, :password_confirmation)
-    end
+  def user_password_params
+    params.require(:user).permit(:password, :password_confirmation)
+  end
 end
