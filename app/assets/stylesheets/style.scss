@@ -23,6 +23,20 @@ $PrimaryColor: #605ca8;
   margin: 8px 0;
 }
 
+#teams-index.content {
+  .box {
+    transition: box-shadow .3s;
+  }
+
+  .box:hover {
+    box-shadow: 0 0 11px rgba(33,33,33,.2);
+  }
+
+  .box-body {
+    color: #333333;
+  }
+}
+
 .cursor {
   cursor: pointer;
 }

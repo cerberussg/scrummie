@@ -1,7 +1,7 @@
 .content
   .row
     .col-lg-12
-      .box
+      .box.box-brand
         .box-header
           .pull-right.box-tools
             - if current_user.has_role? :admin, current_account
@@ -34,7 +34,7 @@
               strftime("%I:%M %p %Z")}(#{@team.recap_time.strftime("%H:%M")})"
   .row
     .col-lg-12
-      .box
+      .box.box-brand
         .box-header
           .pull-right.box-tools
             a href="/t/#{@team.hash_id}/s"
