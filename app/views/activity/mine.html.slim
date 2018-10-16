@@ -1,6 +1,20 @@
 .content-header
   h2 My Activity
 .content
+  - unless @teams.empty?
+  .row
+    .col-lg-12
+      .box.box-brand
+        .box-header
+          h3.box-title My Standups today
+        .box-body
+          - @teams.each do |team|
+            p
+              = "Team: #{team.name} reminder at \
+              #{team.reminder_time.in_time_zone(current_user.time_zone).\
+              strftime("%I:%M %p %Z")}\
+              (#{team.reminder_time.strftime("%H:%M")})"
+.content
   - @standups.each_slice(3) do |standups|
     .row
       - standups.each do |standup|
@@ -18,19 +32,19 @@
                   ul.todo-list
                     - standup.dids.each do |did|
                       - cache did do
-                        li= did.title
+                        li= linkified_title did.title
                 h4
                   | Todos
                   ul.todo-list
                     - standup.todos.each do |todo|
                       - cache todo do
-                        li = todo.title
+                        li = linkified_title todo.title
                 h4
                   | Blockers
                   ul.todo-list
                     - standup.blockers.each do |blocker|
                       - cache blocker do
-                        li = blocker.title
+                        li = linkified_title blocker.title
   .row
     .col-sm-12
       = paginate @standups
