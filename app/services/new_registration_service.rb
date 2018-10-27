@@ -39,13 +39,10 @@ class NewRegistrationService
 
   def send_welcome_email
     ## No OP
-    # WelcomeEmailMailer.welcome_email(user).deliver_later
+    #WelcomeEmailMailer.welcome_email(user).deliver_later
   end
 
   def notify_slack
-    NotificationServices::SlackWebhooks::NewAccount.(
-      account: account,
-      user: user
-    )
+    SlackNotificationJob.perform_later(user)
   end
 end
