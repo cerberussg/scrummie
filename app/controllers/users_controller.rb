@@ -62,14 +62,6 @@ class UsersController < ApplicationController
   # POST /account/users
   # POST /account/users.json
   def create
-    check_resource_against_limits(:users) do
-      return redirect_back(
-        fallback_location: root_path,
-        notice: "You do not have the resources to create this User,\
- please consider upgrading your plan."
-      )
-    end
-
     @user = User.unscoped.new(user_params.except("role"))
     @user.account = current_account
     @user.password = "password123"
