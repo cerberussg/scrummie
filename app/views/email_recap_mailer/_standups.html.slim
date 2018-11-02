@@ -1,0 +1,29 @@
+table
+  - @standups.each_slice(3) do |standups|
+    tr
+      - standups.each do |standup|
+        td.content-block
+          .box.box-primary
+            .box-header.with-border
+              h3.box-title
+                = link_to standup.user.name,\
+                  standups_account_user_url(standup.user)
+            .box-body
+              h4
+                | Dids
+                ul.todo-list
+                  - standup.dids.each do |did|
+                    li= did.title
+              h4
+                | Todos
+                ul.todo-list
+                  - standup.todos.each do |todo|
+                    li= todo.title
+              h4
+                | Blockers
+                ul.todo-list
+                  - standup.blockers.each do |blocker|
+                    li= blocker.title
+      - if standups.size < 3
+        - (3 - standups.size).times.each do
+          td

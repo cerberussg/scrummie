@@ -1,4 +1,6 @@
 require 'rails_helper'
+include ActiveJob::TestHelper
+ActiveJob::Base.queue_adapter = :test
 
 RSpec.feature "SignUpProcesses", type: :feature do
   it "should require the user to sign up and successfully sign up" do
@@ -22,9 +24,11 @@ RSpec.feature "SignUpProcesses", type: :feature do
       fill_in "account_name", with: "Test Co"
     end
 
-    click_button "Save"
-
-    expect(current_path).to eql(root_path)
+    expect do
+      click_button "Save"
+      expect(ActionMailer::Base.deliveries.last.to).to eq ["test@test.com"]
+      expect(current_path).to eql(root_path)
+    end
   end
 
   it "should fail on an invalid user information" do
