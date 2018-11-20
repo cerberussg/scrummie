@@ -21,7 +21,7 @@ module Recaps
     end
 
     def current_day
-      DaysOfTheWeekMembership.day[Time.now.utc.strftime('%A').downcase.to_sym]
+      DaysOfTheWeekMembership.days[Time.now.utc.strftime('%A').downcase.to_sym]
     end
 
     def last_fifteen_marker
