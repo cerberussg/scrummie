@@ -1,4 +1,4 @@
-class EmailRecapMailer
+class EmailRecapMailer < ApplicationMailer
   default from: "'Scrummie' <scrummie@scrummie.app>"
 
   def recap_email(user, team, standups)
